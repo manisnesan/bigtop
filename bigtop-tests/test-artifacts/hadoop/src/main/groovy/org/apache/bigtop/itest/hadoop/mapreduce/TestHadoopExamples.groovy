@@ -63,6 +63,9 @@ class TestHadoopExamples {
   @BeforeClass
   static void setUp() {
     conf = new Configuration();
+
+    sh.exec("touch /tmp/running");
+
     TestUtils.unpackTestResources(TestHadoopExamples.class, EXAMPLES, null, EXAMPLES_OUT);
   }
 
@@ -74,7 +77,7 @@ class TestHadoopExamples {
         aggregatewordcount:"$EXAMPLES/text $EXAMPLES_OUT/aggregatewordcount 2 textinputformat",
         aggregatewordhist :"$EXAMPLES/text $EXAMPLES_OUT/aggregatewordhist 2 textinputformat",
         grep              :"$EXAMPLES/text $EXAMPLES_OUT/grep '[Cc]uriouser'",
-//        sleep             :"-m 10 -r 10",
+	//sleep             :"-m 10 -r 10",
         secondarysort     :"$EXAMPLES/ints $EXAMPLES_OUT/secondarysort",
         randomtextwriter  :"-D $RANDOMTEXTWRITER_TOTALBYTES=1073741824 $EXAMPLES_OUT/randomtextwriter"
     ];
@@ -98,9 +101,9 @@ class TestHadoopExamples {
 
   @Test
   void testMRExample() {
+    
     sh.exec("hadoop jar $testJar $testName $testArgs");
-
-    assertTrue("Example $testName failed", 
-               sh.getRet() == 0);
+    assertTrue("Example $testName $testJar $testName $testArgs failed", sh.getRet() == 0);
   }
 }
+

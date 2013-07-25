@@ -34,7 +34,7 @@
 
   <modules>
     <module>hadoop</module>
-    <module>package</module>
+  <!--  <module>package</module>
     <module>oozie</module>
     <module>hive</module>
     <module>hbase</module>
@@ -48,7 +48,8 @@
     <module>datafu</module>
     <module>fatjar</module>
     <module>hcatalog</module>
-  </modules>
+    --> 
+   </modules>
 
   <dependencies>
     <dependency>
