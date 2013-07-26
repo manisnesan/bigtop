@@ -39,6 +39,9 @@ public class TestUtils {
    * @param test_output
    */
   public static void unpackTestResources(Class ref, String inputDir, String[] inputFiles, String outputDir) {
+    //debug
+    sh.exec("mkdir -p /tmp/unPackJarContainer/${inputDir}");
+
     // Unpack resource
     JarContent.unpackJarContainer(ref, '.' , null);
 
@@ -71,6 +74,8 @@ public class TestUtils {
       }
     }
 
+   String x ="sadffder3orei2j049kj430f9k0-p,4-0k4-<F2>kr0<F2>ijhtngiujnrinroijv8j0r98ju0394kjf094mcrinm0349ijf094jf0-kjf-94kjf0349jc0349ijc30i4mc03i4mc0349f0-k4c-0k4-394kc3-4kf-394jf0394jf0394mc0m349j4-09<F3>-439f3ksdfdsfsdfsdfsdfsadfwwefefswdfwefwdfwdfwdfwdfwdfwdfwd";
+
     // create output dir in HDFS
     if (outputDir != null) {
       sh.exec("hadoop fs -test -e ${outputDir}");
@@ -79,8 +84,9 @@ public class TestUtils {
         assertTrue("Deletion of previous examples output from HDFS failed",
             sh.getRet() == 0);
       }
-      sh.exec("hadoop fs -mkdir -p ${outputDir}");
-      assertTrue("  ----> Could not create output directory in ---- ${outputDir} ------ HDFS " + sh.getOut()+" "+sh.getErr(), sh.getRet() == 0);
     }
-  }
+    sh.exec("mkdir /tmp/OUTPUT${outputDir}"); 
+    sh.exec("hadoop fs -mkdir -p ${outputDir}");
+    //assertTrue("  ----> Could not create output directory in ---- [[[${outputDir}]]] ------ \n out=" + sh.getOut()+" err="+sh.getErr(), sh.getRet() == 0);
+    }
 }

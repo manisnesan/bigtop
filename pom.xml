@@ -217,7 +217,19 @@
       </dependency>
     </dependencies>
   </dependencyManagement>
-
+<repositories>
+<repository>
+        <id>central</id>
+                <releases>
+                            <updatePolicy>never</updatePolicy>
+                                    </releases>
+                                            <snapshots>
+                                                        <updatePolicy>never</updatePolicy>
+                                                                </snapshots>
+                                                                        <url>http://repo1.maven.org/maven2</url>
+                                                                                <layout>legacy</layout>
+                                                                                    </repository>
+</repositories>
   <build>
     <extensions>
       <extension>

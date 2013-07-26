@@ -65,8 +65,10 @@ class TestHadoopExamples {
     conf = new Configuration();
 
     sh.exec("touch /tmp/running");
-
+    
     TestUtils.unpackTestResources(TestHadoopExamples.class, EXAMPLES, null, EXAMPLES_OUT);
+  
+
   }
 
   static Map examples =
