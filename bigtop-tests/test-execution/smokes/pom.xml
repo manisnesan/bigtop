@@ -54,21 +54,19 @@
     List of modules which should be executed as a part of stack testing run
   -->
   <modules>
-    <module>pig</module>
-    <module>hive</module>
     <module>hadoop</module>
+    <!-- <module>pig</module>
+    <module>hive</module>
     <module>oozie</module>
     <module>hbase</module>
     <module>mahout</module>
     <module>giraph</module>
     <module>hue</module>
     <module>crunch</module>
-
-    <!--
     <module>flume</module>
     <module>sqoop</module>
-    -->
     <module>hcatalog</module>
+    -->
   </modules>
 
   <dependencyManagement>

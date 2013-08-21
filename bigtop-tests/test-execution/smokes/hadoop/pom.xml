@@ -85,7 +85,10 @@
               ${project.build.directory}/clitest_data
             </test.cache.data>
           </systemPropertyVariables>
-        </configuration>
+          <includes>
+            <include>**/TestHadoopExamples*,**/TestCl*</include>
+          </includes> 
+       </configuration>
       </plugin>
     </plugins>
   </build>
