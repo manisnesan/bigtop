@@ -71,15 +71,15 @@ class TestHadoopExamples {
 
   static Map examples =
     [
-        pi                :'2 1000',
+        pi                :'5 10',
         wordcount         :"$EXAMPLES/text $EXAMPLES_OUT/wordcount",
-        multifilewc       :"$EXAMPLES/text $EXAMPLES_OUT/multifilewc",
-        aggregatewordcount:"$EXAMPLES/text $EXAMPLES_OUT/aggregatewordcount 2 textinputformat",
-        aggregatewordhist :"$EXAMPLES/text $EXAMPLES_OUT/aggregatewordhist 2 textinputformat",
-        grep              :"$EXAMPLES/text $EXAMPLES_OUT/grep '[Cc]uriouser'",
+        //multifilewc       :"$EXAMPLES/text $EXAMPLES_OUT/multifilewc",
+        //aggregatewordcount:"$EXAMPLES/text $EXAMPLES_OUT/aggregatewordcount 2 textinputformat",
+        //aggregatewordhist :"$EXAMPLES/text $EXAMPLES_OUT/aggregatewordhist 2 textinputformat",
+        //grep              :"$EXAMPLES/text $EXAMPLES_OUT/grep '[Cc]uriouser'",
 	//sleep             :"-m 10 -r 10",
-        secondarysort     :"$EXAMPLES/ints $EXAMPLES_OUT/secondarysort",
-        randomtextwriter  :"-D $RANDOMTEXTWRITER_TOTALBYTES=1073741824 $EXAMPLES_OUT/randomtextwriter"
+        //secondarysort     :"$EXAMPLES/ints $EXAMPLES_OUT/secondarysort",
+        //randomtextwriter  :"-D $RANDOMTEXTWRITER_TOTALBYTES=1073741824 $EXAMPLES_OUT/randomtextwriter"
     ];
 
   private String testName;
@@ -101,7 +101,7 @@ class TestHadoopExamples {
 
   @Test
   void testMRExample() {
-    
+    //assertTrue("failing on purpose",1==1);
     sh.exec("hadoop jar $testJar $testName $testArgs");
     assertTrue("Example $testName $testJar $testName $testArgs failed", sh.getRet() == 0);
   }
