@@ -32,8 +32,10 @@
   <name>bigtop-smokes</name>
 
   <modules>
-    <module>common</module>
+    <!-- <module>common</module>
     <module>conf</module>
     <module>package</module>
+    -->
+    <module>smokes</module>
   </modules>
 </project>

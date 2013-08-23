@@ -82,15 +82,18 @@
         <artifactId>maven-dependency-plugin</artifactId>
       </plugin>
       <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-failsafe-plugin</artifactId>
-        <version>2.11</version>
-        <configuration>
-          <additionalClasspathElements>
-              <additionalClasspathElement>${HADOOP_CONF_DIR}</additionalClasspathElement>
-          </additionalClasspathElements>
-        </configuration>
-      </plugin>
+		<groupId>org.apache.maven.plugins</groupId>
+		<artifactId>maven-failsafe-plugin</artifactId>
+		<version>2.11</version>
+		<configuration>
+		     <additionalClasspathElements>
+		        <additionalClasspathElement>${HADOOP_CONF_DIR}</additionalClasspathElement>
+		     </additionalClasspathElements>
+		     <includes>
+		   	<include>**/TestMahoutExamp*</include>
+	             </includes> 
+        	</configuration>
+     </plugin>
     </plugins>
   </build>
 </project>
