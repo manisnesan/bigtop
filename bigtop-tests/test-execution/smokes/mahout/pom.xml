@@ -39,6 +39,7 @@
 
     <HADOOP_HOME>${env.HADOOP_HOME}</HADOOP_HOME>
     <HADOOP_CONF_DIR>${env.HADOOP_CONF_DIR}</HADOOP_CONF_DIR>
+    <MAHOUT_HOME>${env.MAHOUT_HOME} </MAHOUT_HOME>
   </properties>
 
   <dependencies>
@@ -70,7 +71,10 @@
                   <property>HADOOP_CONF_DIR</property>
                   <message>HADOOP_CONF_DIR env. variable has to be set</message>
                 </requireProperty>
-              </rules>
+                 <requireProperty>
+                  <property>MAHOUT_HOME</property>
+                  <message>MAHOUT_HOME variable has to be set (customization: this an extra constraint.)</message>
+                </requireProperty>
               <fail>true</fail>
             </configuration>
           </execution>
