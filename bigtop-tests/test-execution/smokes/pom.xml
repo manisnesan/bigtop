@@ -54,7 +54,8 @@
     List of modules which should be executed as a part of stack testing run
   -->
   <modules>
-    <module>hadoop</module>
+    <module>hadoop</module> 
+    <module>mahout</module> 
     <!-- <module>pig</module>
     <module>hive</module>
     <module>oozie</module>

@@ -34,10 +34,21 @@ public class TestMahoutExamples {
   public static final String TEMP_DIR = "/tmp/mahout.${(new Date().getTime())}";
   public static final String WORK_DIR = TEMP_DIR;
   private static Shell sh = new Shell("/bin/bash -s");
-  public static String download_dir = System.getProperty("mahout.examples.resources.download.path") ?: "/tmp" ;
+  public static String download_dir = 
+      System.getProperty("mahout.examples.resources.download.path") ?: "/tmp" ;
+  public static String mahout=(System.getProperty("MAHOUT_HOME")+"/bin/mahout");
+
+  //This is a simple mahout smoke to start off the test with. 
+  //Should run in less than a second.
+  public static void simplesmoke() {
+    sh.exec(mahout + " testnb");
+    assertEquals("Mahout installed : " + mahout + " :: " + sh.getOut() + "/" + sh.getErr() ,0, sh.getRet())
+  }
 
   @BeforeClass
   public static void setUp() {
+    sh.exec("touch /tmp/execMahout");
+    simpleSmoke();
     // download resources
     sh.exec(
     "if [ ! -f ${download_dir}/20news-bydate.tar.gz ]; then " +
@@ -104,6 +115,7 @@ public class TestMahoutExamples {
     }
   }
 
+  
   @Test(timeout=12000000L)
   public void factorizeMovieLensRatings() {
     // convert ratings
@@ -118,7 +130,7 @@ public class TestMahoutExamples {
     //create a 90% percent training set and a 10% probe set
     sh.exec("mahout splitDataset --input ${WORK_DIR}/movielens/ratings.csv --output ${WORK_DIR}/dataset " +
             "--trainingPercentage 0.9 --probePercentage 0.1 --tempDir ${WORK_DIR}/dataset/tmp");
-    assertEquals("Unexpected error from running mahout", 0, sh.getRet());
+    assertEquals("Unexpected error from running mahout " + sh.getOut() + " / " + sh.getErr(), 0, sh.getRet());
 
     //run distributed ALS-WR to factorize the rating matrix based on the training set
     sh.exec("mahout parallelALS --input ${WORK_DIR}/dataset/trainingSet/ --output ${WORK_DIR}/als/out " +
@@ -159,33 +171,33 @@ public class TestMahoutExamples {
     assertEquals("Unexpected error from running mahout", 0, sh.getRet());
   }
 
-  @Test(timeout=900000L)
+  //@Test(timeout=900000L)
   public void clusterControlDataWithCanopy() {
     _clusterSyntheticControlData("canopy");
   }
 
-  @Test(timeout=9000000L)
+  //@Test(timeout=9000000L)
   public void clusterControlDataWithKMeans() {
     _clusterSyntheticControlData("kmeans");
   }
 
-  @Test(timeout=9000000L)
+  //@Test(timeout=9000000L)
   public void clusterControlDataWithFuzzyKMeans() {
     _clusterSyntheticControlData("fuzzykmeans");
   }
 
-  @Test(timeout=900000L)
+  //@Test(timeout=900000L)
   public void clusterControlDataWithDirichlet() {
     _clusterSyntheticControlData("dirichlet");
   }
 
-  @Test(timeout=900000L)
+  //@Test(timeout=900000L)
   public void clusterControlDataWithMeanShift() {
     _clusterSyntheticControlData("meanshift");
   }
 
-  @Test(timeout=7200000L)
-  public void testReutersLDA() {
+  //@Test(timeout=1L)
+  public void ignoredReutersLDA() {
     // where does lda.algorithm come in?
     sh.exec("mahout org.apache.lucene.benchmark.utils.ExtractReuters ${TEMP_DIR}/reuters-sgm ${TEMP_DIR}/reuters-out");
     assertEquals("Unexpected error from running mahout", 0, sh.getRet());
@@ -222,8 +234,9 @@ public class TestMahoutExamples {
     assertEquals("Unexpected error from running mahout", 0, sh.getRet());
   }
 
-  @Test(timeout=9000000L)
-  public void testBayesNewsgroupClassifier() {
+  //@Test(timeout=9000000L)
+  //@Ignore
+  public void ignoredBayesNewsgroupClassifier() {
     // put bayes-train-input and bayes-test-input in hdfs
     sh.exec("hadoop fs -mkdir ${WORK_DIR}/20news-vectors");
     sh.exec("hadoop fs -put ${TEMP_DIR}/20news-all ${WORK_DIR}/20news-all");
