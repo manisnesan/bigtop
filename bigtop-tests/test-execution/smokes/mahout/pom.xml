@@ -75,6 +75,8 @@
                   <property>MAHOUT_HOME</property>
                   <message>MAHOUT_HOME variable has to be set (customization: this an extra constraint.)</message>
                 </requireProperty>
+              </rules>  
+              <failFast>true</failFast>  
               <fail>true</fail>
             </configuration>
           </execution>
@@ -93,7 +95,12 @@
 		     <additionalClasspathElements>
 		        <additionalClasspathElement>${HADOOP_CONF_DIR}</additionalClasspathElement>
 		     </additionalClasspathElements>
-		     <includes>
+
+                  <systemProperties>
+                      <name>mahout.home</name>
+                      <value>${MAHOUT_HOME}</value>
+                  </systemProperties>
+                     <includes>
 		   	<include>**/TestMahoutExamp*</include>
 	             </includes> 
         	</configuration>
