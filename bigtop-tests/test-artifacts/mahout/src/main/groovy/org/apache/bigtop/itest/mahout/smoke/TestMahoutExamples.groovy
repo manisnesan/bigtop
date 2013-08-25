@@ -36,19 +36,27 @@ public class TestMahoutExamples {
   private static Shell sh = new Shell("/bin/bash -s");
   public static String download_dir = 
       System.getProperty("mahout.examples.resources.download.path") ?: "/tmp" ;
-  public static String mahout=(System.getProperty("MAHOUT_HOME")+"/bin/mahout");
+  public static String MAHOUT_HOME = System.getenv("MAHOUT_HOME")+"";
 
   //This is a simple mahout smoke to start off the test with. 
   //Should run in less than a second.
-  public static void simplesmoke() {
-    sh.exec(mahout + " testnb");
-    assertEquals("Mahout installed : " + mahout + " :: " + sh.getOut() + "/" + sh.getErr() ,0, sh.getRet())
+
+  //
+
+  //
+  public static void simpleSmoke1() {
+    
+    print("mahout property info22:")
+    print("getProperty " + System.getProperty("MAHOUT_HOME"))
+    print("getenv " + System.getenv("MAHOUT_HOME")) 
+    sh.exec(MAHOUT_HOME+"/bin/mahout testnb");
+    assertEquals("Mahout :::: " + sh.getOut() + "/" + sh.getErr() ,0, sh.getRet())
   }
 
   @BeforeClass
   public static void setUp() {
     sh.exec("touch /tmp/execMahout");
-    simpleSmoke();
+    simpleSmoke1();
     // download resources
     sh.exec(
     "if [ ! -f ${download_dir}/20news-bydate.tar.gz ]; then " +
@@ -126,28 +134,29 @@ public class TestMahoutExamples {
     sh.exec("hadoop fs -mkdir ${WORK_DIR}/movielens",
             "hadoop fs -put ${TEMP_DIR}/movielens/ratings.csv ${WORK_DIR}/movielens/ratings.csv");
     assertEquals("Unable to put movielens/ratings.csv in hdfs", 0, sh.getRet());
-
+    String mahout = MAHOUT_HOME+"/bin/mahout";
     //create a 90% percent training set and a 10% probe set
-    sh.exec("mahout splitDataset --input ${WORK_DIR}/movielens/ratings.csv --output ${WORK_DIR}/dataset " +
+    sh.exec(mahout +" splitDataset --input ${WORK_DIR}/movielens/ratings.csv --output ${WORK_DIR}/dataset " +
             "--trainingPercentage 0.9 --probePercentage 0.1 --tempDir ${WORK_DIR}/dataset/tmp");
     assertEquals("Unexpected error from running mahout " + sh.getOut() + " / " + sh.getErr(), 0, sh.getRet());
 
     //run distributed ALS-WR to factorize the rating matrix based on the training set
-    sh.exec("mahout parallelALS --input ${WORK_DIR}/dataset/trainingSet/ --output ${WORK_DIR}/als/out " +
+    sh.exec(mahout+" parallelALS --input ${WORK_DIR}/dataset/trainingSet/ --output ${WORK_DIR}/als/out " +
             "--tempDir ${WORK_DIR}/als/tmp --numFeatures 20 --numIterations 10 --lambda 0.065");
     assertEquals("Unexpected error from running mahout", 0, sh.getRet());
 
     //compute predictions against the probe set, measure the error
-    sh.exec("mahout evaluateFactorization --output ${WORK_DIR}/als/rmse --input ${WORK_DIR}/dataset/probeSet/ " +
+    sh.exec(mahout+" evaluateFactorization --output ${WORK_DIR}/als/rmse --input ${WORK_DIR}/dataset/probeSet/ " +
             "--userFeatures ${WORK_DIR}/als/out/U/ --itemFeatures ${WORK_DIR}/als/out/M/ --tempDir ${WORK_DIR}/als/tmp");
     assertEquals("Unexpected error from running mahout", 0, sh.getRet());
 
     //compute recommendations
-    sh.exec("mahout recommendfactorized --input ${WORK_DIR}/als/out/userRatings/ --output ${WORK_DIR}/recommendations " +
+    sh.exec(mahout+" recommendfactorized --input ${WORK_DIR}/als/out/userRatings/ --output ${WORK_DIR}/recommendations " +
             "--userFeatures ${WORK_DIR}/als/out/U/ --itemFeatures ${WORK_DIR}/als/out/M/ " +
             "--numRecommendations 6 --maxRating 5");
     assertEquals("Unexpected error from running mahout", 0, sh.getRet());
 
+    
     // check that error has been calculated
     sh.exec("hadoop fs -test -e ${WORK_DIR}/als/rmse/rmse.txt");
     assertEquals("${WORK_DIR}/als/rmse/rmse.txt does not exist", 0, sh.getRet());

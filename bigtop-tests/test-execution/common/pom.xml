@@ -46,7 +46,8 @@
     -->
     <HADOOP_HOME>${env.HADOOP_HOME}</HADOOP_HOME>
     <HADOOP_CONF_DIR>${env.HADOOP_CONF_DIR}</HADOOP_CONF_DIR>
-    <!--
+     <MAHOUT_HOME>${env.MAHOUT_HOME}</MAHOUT_HOME>   
+ <!--
       Default exclude mask for failsafe plugin. OPTIONAL
       Default value is set below to represent non-existent name
       If a module needs to exclude certain test patterns this property has to be overwritten
