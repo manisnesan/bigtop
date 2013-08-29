@@ -1,8 +1,12 @@
 #!/usr/bin/env bash
 
 # Setup environment variables
+if [ -z $HIVE_HOME ]; 
+   then 
+     echo "No HIVE_HOME set ! export it and try again"
+     exit 99; 
+fi
 
-TEST_DIR=/root/ContinuousIntegration/SystemTests/Test_Reports/hive
 rm -rf /tmp/root/hive.log
 # Clean up Before Test
 $HADOOP_HOME/bin/hadoop fs -rmr /tmp
@@ -17,9 +21,9 @@ $HADOOP_HOME/bin/hadoop fs -chmod g+w   /user/hive/warehouse
 # Run Hive CRUD Test
 echo "Running Hive CRUD Test"
 echo "HIVE HOME  : $HIVE_HOME"
-cd $HIVE_HOME
+cp -r $HIVE_HOME/examples ./examples
 echo pwd > /tmp/hivetestdir 
-$HIVE_HOME/bin/hive --verbose -f hive-crud.q
+$HIVE_HOME/bin/hive --verbose -f ./hive-crud.q
 echo "Hive CRUD Test Completed"
 echo ""
 
@@ -27,7 +31,7 @@ echo ""
 grep -A 2 -B 2 -r Exception /tmp/root/hive.log
 
 # Condition to determine Test Case Success
-if cat $TEST_DIR/hive-crud.out | grep -q 'Time taken:'; 
+if cat hive-crud.out | grep -q 'Time taken:'; 
    then echo "TEST SUCCEEDED" ; 
    return 0 
 else 
