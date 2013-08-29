@@ -18,7 +18,8 @@ $HADOOP_HOME/bin/hadoop fs -chmod g+w   /user/hive/warehouse
 echo "Running Hive CRUD Test"
 echo "HIVE HOME  : $HIVE_HOME"
 cd $HIVE_HOME
-$HIVE_HOME/bin/hive --verbose -f /root/ContinuousIntegration/SystemTests/Tests/hive/hive-crud.q
+echo pwd > /tmp/hivetestdir 
+$HIVE_HOME/bin/hive --verbose -f hive-crud.q
 echo "Hive CRUD Test Completed"
 echo ""
 
@@ -26,7 +27,11 @@ echo ""
 grep -A 2 -B 2 -r Exception /tmp/root/hive.log
 
 # Condition to determine Test Case Success
-if cat $TEST_DIR/hive-crud.out | grep -q 'Time taken:'; then echo "TEST SUCCEEDED" ; else echo "TEST FAILED"; fi
-
-
+if cat $TEST_DIR/hive-crud.out | grep -q 'Time taken:'; 
+   then echo "TEST SUCCEEDED" ; 
+   return 0 
+else 
+   echo "TEST FAILED"; 
+   return 3
+fi
 
