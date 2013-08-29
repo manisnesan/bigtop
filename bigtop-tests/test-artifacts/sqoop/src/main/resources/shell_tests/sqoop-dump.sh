@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-
+ 
 TEST_DIR=Tests/sqoop
 #MYSQL_TAR=mysql-5.6.10-osx10.7-x86_64.tar.gz
 #MYSQL_DIR=mysql-5.6.10-osx10.7-x86_64
