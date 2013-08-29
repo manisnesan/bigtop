@@ -68,11 +68,14 @@ class TestHadoopExamples {
 
     TestUtils.unpackTestResources(TestHadoopExamples.class, EXAMPLES, null, EXAMPLES_OUT);
   }
-
+  static long terasortid = System.currentTimeMillis();
   static Map examples =
     [
         pi                :'5 10',
         wordcount         :"$EXAMPLES/text $EXAMPLES_OUT/wordcount",
+        teragen		  :"1000 /tmp/teragen"
+        terasort	  :"/tmp/teragen"+$terasortid+" /tmp/terasort"+$terasortid
+        tervalidate	  :"/tmp/terasort"+$terasortid+" /tmp/tervalidate"+$terasortid
         //multifilewc       :"$EXAMPLES/text $EXAMPLES_OUT/multifilewc",
         //aggregatewordcount:"$EXAMPLES/text $EXAMPLES_OUT/aggregatewordcount 2 textinputformat",
         //aggregatewordhist :"$EXAMPLES/text $EXAMPLES_OUT/aggregatewordhist 2 textinputformat",
