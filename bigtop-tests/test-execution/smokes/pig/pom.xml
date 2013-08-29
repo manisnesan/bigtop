@@ -94,9 +94,11 @@
           <forkMode>always</forkMode>
           <argLine>-Dpigunit.exectype.cluster=true</argLine>
           <additionalClasspathElements>
-            <additionalClasspathElement>
-              ${HADOOP_CONF_DIR}
-            </additionalClasspathElement>
+             <additionalClasspathElement>
+               ${HADOOP_CONF_DIR}
+             </additionalClasspathElement>
+             <additionalClasspathElement>/mnt/glusterfs/lib/glusterfs-hadoop.jar</additionalClasspathElement>
+             <additionalClasspathElement>${PIG_HOME}/lib/*jar</additionalClasspathElement>
           </additionalClasspathElements>
         </configuration>
       </plugin>

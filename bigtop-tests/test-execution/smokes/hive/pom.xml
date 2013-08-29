@@ -77,7 +77,7 @@
                   <property>HIVE_HOME</property>
                   <message>HIVE_HOME env. variable has to be set</message>
                 </requireProperty>
-                <requireProperty>
+          <!--      <requireProperty>
                   <property>HBASE_HOME</property>
                   <message>HBASE_HOME env. variable has to be set</message>
                 </requireProperty>
@@ -85,6 +85,7 @@
                   <property>ZOOKEEPER_HOME</property>
                   <message>ZOOKEEPER_HOME env. variable has to be set</message>
                 </requireProperty>
+         -->
               </rules>
               <fail>true</fail>
             </configuration>
