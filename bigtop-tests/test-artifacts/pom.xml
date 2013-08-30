@@ -33,9 +33,19 @@
 
 
   <modules>
-    <module>hadoop</module>
-    <module>mahout</module> 
-  <!--  <module>package</module>
+    <module>hive</module>
+    <!-- (our tests : uncomment as needed) 
+      <module>hadoop</module>
+      <module>mahout</module> 
+      <module>pig</module>
+      <module>sqoop</module> 
+      <module>flume</module>
+    --> 
+
+
+  <!-- list of all available tests ..  
+
+    <module>package</module>
     <module>oozie</module>
     <module>hive</module>
     <module>hbase</module>

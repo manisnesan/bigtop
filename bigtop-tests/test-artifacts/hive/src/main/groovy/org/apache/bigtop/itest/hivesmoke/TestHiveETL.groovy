@@ -49,10 +49,19 @@ public class TestHiveETL {
   public static void setUp() throws ClassNotFoundException, InterruptedException, NoSuchFieldException, IllegalAccessException {
     sh.exec("touch /tmp/hivetest");
   }
+  public void validate(){
+    java.io.File f = new java.io.File('./shell_tests/test.sh')
+    assertTrue(f.exists());
+    print("test file length " + f.length());
+  }
 
   @Test(timeout=120000L)
   public void testCreate() throws SQLException {
-    sh.exec("shell_tests/test.sh");
+    print("Starting exec ")
+    sh.exec("cd ./shell_tests/ && source test.sh");
+    print(sh.out +  " " + sh.err)
+    print(sh.ret + " <--- return code") 
+    assertEquals("Return code 0", 0, sh.ret)
   }
 
 }
