@@ -6,12 +6,18 @@ if [ -z $HIVE_HOME ];
      echo "No HIVE_HOME set ! export it and try again"
      exit 99;
 fi
+rm hive-crud.out
 
 # Run HiveMix
-source ./hive-crud.sh > hive-crud.out 2>&1
+pwd >> /tmp/hereiam 
+
+source ./hive-crud.sh #` #> hive-crud.out 2>&1
+result=$?
+
+echo "Hive test result $result" >> /tmp/hive_result
 
 grep -r DATABASE $TEST_DIR/hive-crud.out 
 
 echo "Hive Tests Have Completed $TEST_DIR"
 
-cat hive-crud.out 
+return $result

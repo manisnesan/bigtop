@@ -112,6 +112,11 @@
             <additionalClasspathElement>${HIVE_HOME}/lib/${libfb303.jar}</additionalClasspathElement>
             <additionalClasspathElement>${HIVE_HOME}/lib/${slf4j-api.jar}</additionalClasspathElement>
           </additionalClasspathElements>
+         <includes>
+           <include>**/TestHiveETL*</include>
+         </includes>
+
+
         </configuration>
       </plugin>
       <plugin>
