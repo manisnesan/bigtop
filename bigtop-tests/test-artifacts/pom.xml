@@ -34,6 +34,7 @@
 
   <modules>
     <module>sqoop</module>
+    <module>hive</module>
     <!-- (our tests : uncomment as needed) 
       <module>hadoop</module>
       <module>mahout</module> 

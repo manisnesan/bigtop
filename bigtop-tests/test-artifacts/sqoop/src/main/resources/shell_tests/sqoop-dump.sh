@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+<<<<<<< HEAD
 
 date=`date`
 echo "sq logging-> $date" >> /tmp/sq.log
@@ -12,6 +13,17 @@ DRIVER=./mysql-connector-java-5.1.23-bin.jar
 
 echo "done env vars " >> /tmp/sq.log
 #SQOOP_HOME=/root/ContinuousIntegration/SystemTests/ecosystem/sqoop-1.4.2.23.bin__hadoop-1.1.2.23/
+=======
+ 
+TEST_DIR=Tests/sqoop
+#MYSQL_TAR=mysql-5.6.10-osx10.7-x86_64.tar.gz
+#MYSQL_DIR=mysql-5.6.10-osx10.7-x86_64
+MYSQL_SVR=`hostname`
+#MYSQL_SVR=localhost
+EMPDB_TAR=employees_db-full-1.0.6.tar.bz2
+EMPDB_DIR=employees_db
+DRIVER=./mysql-connector-java-5.1.23-bin.jar
+SQOOP_HOME=/root/ContinuousIntegration/SystemTests/ecosystem/sqoop-1.4.2.23.bin__hadoop-1.1.2.23/
 
 # Clean up Local FileSystem before Test
 #rm -rf $EMPDB_DIR
@@ -70,6 +82,10 @@ echo "^^ emplyees" >> /tmp/sq.log
 
 ### This script will drop all data and recreate it. 
 mysql --user=root -t < employees.sql 
+echo "Done extracting dir..."
+
+dir=$(pwd)
+#mysql --user=root -t < employees.sql 
 cd $dir
 
 # Copy the MySQL driver into SQOOP/lib so the SQOOP import works
@@ -87,10 +103,4 @@ echo "DONE running sql query $pass "
 ## Write results of a simple query to log. 
 mysql --user=root -h localhost -e 'select * from departments' employees >> /tmp/sq.log
 
-
-
 return $pass
-
-
-
-

@@ -57,6 +57,7 @@
   -->
   <modules>
     <module>sqoop</module> 
+    <module>hive</module> 
     <!--
     <module>flume</module>
     <module>pig</module>
