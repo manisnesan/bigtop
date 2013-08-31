@@ -33,7 +33,7 @@
 
 
   <modules>
-    <module>hive</module>
+    <module>sqoop</module>
     <!-- (our tests : uncomment as needed) 
       <module>hadoop</module>
       <module>mahout</module> 

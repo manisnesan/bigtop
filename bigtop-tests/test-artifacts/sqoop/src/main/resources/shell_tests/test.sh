@@ -17,10 +17,10 @@ fi
 
 echo "running..." >> /tmp/sqoop_result
 chmod -R 777 ./sqoop-dump.sh
-./sqoop-dump.sh > ./sqoop-dump.out
+source ./sqoop-dump.sh > ./sqoop-dump.out
 pass=$?
 echo "done running... $pass" >> /tmp/sqoop_result
 
 echo "SQOOP Tests Have Completed $pass " >> /tmp/sqoop_result
 cp ./sqoop-dump.out /tmp/sqoop-dump.out
-return $pass
+exit $pass

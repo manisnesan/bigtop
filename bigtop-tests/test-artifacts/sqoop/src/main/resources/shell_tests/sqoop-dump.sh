@@ -2,12 +2,11 @@
 
 date=`date`
 echo "sq logging-> $date" >> /tmp/sq.log
- 
-#MYSQL_TAR=mysql-5.6.10-osx10.7-x86_64.tar.gz
-#MYSQL_DIR=mysql-5.6.10-osx10.7-x86_64
+
+############################
+
 MYSQL_SVR=`hostname`
-#MYSQL_SVR=localhost
-EMPDB_TAR=employees_db-full-1.0.6.tar.bz2
+
 EMPDB_DIR=employees_db
 DRIVER=./mysql-connector-java-5.1.23-bin.jar
 
@@ -43,27 +42,55 @@ tar -zxvf $EMPDB_TAR
 #bin/mysqladmin -u root password root
 
 # Import the Employees DB into MySQL (requires bin/mysql -u root to view)
-bunzip2 employees_db-full-1.0.6.tar.bz2
-tar -xvf employees_db-full-1.0.6.tar
+### Download the employees database from launchpad.  this is a standard test db 
+### for sql tools.  
+empdb=employees_db-full-1.0.6.tar.bz2
+if [ ! -e $empdb ]; then
+   echo "emp not found , downloading " >> /tmp/sq.log
+   wget https://launchpad.net/test-db/employees-db-1/1.0.6/+download/$empdb
+   ls -altrh >> /tmp/sq.log
+   echo "done downloading ... untaring ... " >> /tmp/sq.log
+   #bzip2 -cd $empdb | tar xvf -
+   bunzip2 employees_db-full-1.0.6.tar.bz2
+   tar -xvf employees_db-full-1.0.6.tar
+   if [ ! -e ./employees_db ]; then
+      echo "Couldnt find empdb " >> /tmp/sq.log
+      ls -altrh >> /tmp/sq.log
+      echo "Exiting..."
+      exit 44 ;
+   fi
+fi
+
 echo "Done extracting dir..." >> /tmp/sq.log
 
-ls emp* >> /tmp/sq.log
-echo "done unzipping employees " >> /tmp/sq.log
 dir=$(pwd)
 cd ./employees_db
 pwd >> /tmp/sq.log
-#cd ./Tests/sqoop/employees_db/
-#mysql --user=root -t < employees.sql 
+echo "^^ emplyees" >> /tmp/sq.log
+
+### This script will drop all data and recreate it. 
+mysql --user=root -t < employees.sql 
 cd $dir
 
 # Copy the MySQL driver into SQOOP/lib so the SQOOP import works
 cp $DRIVER $SQOOP_HOME/lib
 
 echo "Note, if faliure, please run: mysql> GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' WITH GRANT OPTION"
-
 echo "running query $MYSQL_SVR" >> /tmp/sq.log
+
 # Import the Employees DB into File System using SQOOP
 $SQOOP_HOME/bin/sqoop import-all-tables --connect jdbc:mysql://$MYSQL_SVR/employees --username root >> /tmp/sq.log
 pass=$?
-return $?
+
+echo "DONE running sql query $pass "
+
+## Write results of a simple query to log. 
+mysql --user=root -h localhost -e 'select * from departments' employees >> /tmp/sq.log
+
+
+
+return $pass
+
+
+
 

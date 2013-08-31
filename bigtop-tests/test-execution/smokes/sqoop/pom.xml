@@ -71,7 +71,7 @@
             </goals>
             <configuration>
               <rules>
-                <requireProperty>
+  <!--              <requireProperty>
                   <property>SQOOP_URL</property>
                   <message>SQOOP_URL env. variable has to be set</message>
                 </requireProperty>
@@ -79,7 +79,8 @@
                   <property>MYSQL_HOST</property>
                   <message>MYSQL_HOST env. variable has to be set</message>
                 </requireProperty>
-              </rules>
+   -->           
+               </rules>
               <fail>true</fail>
             </configuration>
           </execution>
@@ -96,6 +97,9 @@
             <mysql.host>${MYSQL_HOST}</mysql.host>
           </systemPropertyVariables>
           <forkMode>always</forkMode>
+          <includes>
+             <include>**/TestSqoopETL*</include>
+          </includes>
         </configuration>
       </plugin>
     </plugins>
