@@ -21,6 +21,8 @@ source ./sqoop-dump.sh > ./sqoop-dump.out
 pass=$?
 echo "done running... $pass" >> /tmp/sqoop_result
 
-echo "SQOOP Tests Have Completed $pass " >> /tmp/sqoop_result
+echo " SQOOP Tests Have Completed $pass " >> /tmp/sqoop_result
 cp ./sqoop-dump.out /tmp/sqoop-dump.out
 exit $pass
+
+

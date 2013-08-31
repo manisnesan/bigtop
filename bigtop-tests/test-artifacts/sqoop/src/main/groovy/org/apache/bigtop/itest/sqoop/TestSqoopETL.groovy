@@ -54,7 +54,7 @@ public class TestSqoopETL {
     print("test file length " + f.length());
   }
 
-  @Test(timeout=120000L)
+  @Test(timeout=1200000L)
   public void testCreate() throws SQLException {
     print("Starting exec (sqoop)")
     sh.exec("cd ./shell_tests/ && source test.sh");

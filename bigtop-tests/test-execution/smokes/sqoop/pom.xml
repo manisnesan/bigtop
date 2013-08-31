@@ -71,11 +71,7 @@
             </goals>
             <configuration>
               <rules>
-<<<<<<< HEAD
   <!--              <requireProperty>
-=======
-                <requireProperty>
->>>>>>> 666f80e90c7331009e4f71055eff1faa9927075d
                   <property>SQOOP_URL</property>
                   <message>SQOOP_URL env. variable has to be set</message>
                 </requireProperty>
