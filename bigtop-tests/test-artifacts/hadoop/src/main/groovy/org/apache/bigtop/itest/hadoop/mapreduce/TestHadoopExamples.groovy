@@ -73,7 +73,7 @@ class TestHadoopExamples {
   static long terasortid = System.currentTimeMillis();
 
   //Number of rows for terasort ~ number of splits 
-  public static Long terasort_rows = System.getProperty("terasort_rows", 1000L);
+  public static String terasort_rows = System.getProperty("terasort_rows", "1000");
   
   static Map examples =
     [
@@ -81,7 +81,7 @@ class TestHadoopExamples {
         wordcount         :"$EXAMPLES/text $EXAMPLES_OUT/wordcount",
         teragen           :"${terasort_rows} teragen${terasortid}",
         terasort          :"teragen${terasortid} terasort${terasortid}",
-        teravalidate      :"terasort${terasortid} tervalidate${terasortid}"
+        teravalidate      :"terasort${terasortid} tervalidate${terasortid}",
         multifilewc       :"$EXAMPLES/text $EXAMPLES_OUT/multifilewc",
         aggregatewordcount:"$EXAMPLES/text $EXAMPLES_OUT/aggregatewordcount 2 textinputformat",
         aggregatewordhist :"$EXAMPLES/text $EXAMPLES_OUT/aggregatewordhist 2 textinputformat",
