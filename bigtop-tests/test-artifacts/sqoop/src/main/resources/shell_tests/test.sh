@@ -5,24 +5,33 @@
 # Create SQOOP Reporting Directory
 
 # Use SQOOP to dump an RDBMS Table into the HCFS
-echo "(((((((((" >> /tmp/sqoop_result
+echo "(((((((((" >> /tmp/sq.log
 pwd >> /tmp/sqoop_result
-ls sqoop* >> /tmp/sqoop_result
+ls sqoop* >> /tmp/sq.log
 if [ -e ./sqoop-dump.sh ]; then
-     echo "exists" >> /tmp/sqoop_result
+     echo "exists" >> /tmp/sq.log
 else
   echo "not exists"
   return 33
 fi
 
-echo "running..." >> /tmp/sqoop_result
+echo "running..." >> /tmp/sq.log
 chmod -R 777 ./sqoop-dump.sh
-source ./sqoop-dump.sh > ./sqoop-dump.out
+source ./sqoop-dump.sh >> /tmp/sq.log
 pass=$?
-echo "done running... $pass" >> /tmp/sqoop_result
+echo "done running... $pass" >> /tmp/sq.log
 
-echo " SQOOP Tests Have Completed $pass " >> /tmp/sqoop_result
-cp ./sqoop-dump.out /tmp/sqoop-dump.out
+echo "sqoop-dump.sh returned test result = $pass,  SQOOP Tests Have Completed " >> /tmp/sq.log
+
+#Just one last check : we confirm that the directory exists.
+
+if [ ! -a /mnt/glusterfs/employees ]; then
+        echo "found employees directory in gluster mount" >> /tmp/sq.log;
+else
+        pass=9
+fi
+echo "test.sh decided sqoop test result = $? **********" >> /tmp/sq.log
+
 exit $pass
 
 

@@ -78,8 +78,11 @@ cp $DRIVER $SQOOP_HOME/lib
 echo "Note, if faliure, please run: mysql> GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' WITH GRANT OPTION"
 echo "running query $MYSQL_SVR" >> /tmp/sq.log
 
+#clean the employees out. 
+rm -rf /mnt/glusterfs/emplo*
 # Import the Employees DB into File System using SQOOP
 $SQOOP_HOME/bin/sqoop import-all-tables --connect jdbc:mysql://$MYSQL_SVR/employees --username root >> /tmp/sq.log
+ls -altrh /mnt/glusterfs/emplo | wc -l >> /tmp/sq.log
 
 pass=$?
 
@@ -88,5 +91,6 @@ echo "DONE running sql query $pass " >> /tmp/sq.log
 ## Write results of a simple query to log. 
 mysql --user=root -h localhost -e 'select * from departments' employees >> /tmp/sq.log
 
+echo "****** SQOOP PASS = $? **********"
 return $pass
 
