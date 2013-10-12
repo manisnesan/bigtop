@@ -26,11 +26,11 @@ echo "sqoop-dump.sh returned test result = $pass,  SQOOP Tests Have Completed " 
 #Just one last check : we confirm that the directory exists.
 
 if [ ! -a /mnt/glusterfs/employees ]; then
-        echo "found employees directory in gluster mount" >> /tmp/sq.log;
+        echo "found employees directory in gluster mount" >> /tmp/sq.log
 else
         pass=9
 fi
-echo "test.sh decided sqoop test result = $? **********" >> /tmp/sq.log
+echo "test.sh decided sqoop test result = $pass **********" >> /tmp/sq.log
 
 exit $pass
 
