@@ -22,4 +22,4 @@ grep -r DATABASE /var/log/systemtestsbt/hive
 
 echo "Hive Tests Have Completed $TEST_DIR"
 
-return $result
+exit $result
