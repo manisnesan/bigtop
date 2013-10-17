@@ -56,8 +56,8 @@ public class TestSqoopETL {
 
   @Test(timeout=1200000L)
   public void testCreate() throws SQLException {
-    println("Starting exec (sqoop)")
-    sh.exec("cd ./shell_tests/ && test.sh");
+    println("Starting exec (sqoop) ")
+    sh.exec("cd ./shell_tests/ ; chmod -R 777 ; ./test.sh");
     println("<STDOUT> "+sh.out +  " </STDOUT>  <STDERR> " + sh.err + " </STDERR>")
     println(sh.ret + " ----->>>>>> return code <<<<<<<<<< --- ") 
     assertEquals("Return (exit code) = 0", 0, sh.ret)

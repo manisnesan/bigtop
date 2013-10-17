@@ -31,6 +31,7 @@ else
         pass=9
 fi
 echo "test.sh decided sqoop test result = $pass **********" >> /tmp/sq.log
+echo "test.sh final exit code: $pass"
 
 exit $pass
 
