@@ -82,18 +82,22 @@ echo "running query $MYSQL_SVR" >> /tmp/sq.log
 rm -rf /mnt/glusterfs/emplo*
 # Import the Employees DB into File System using SQOOP
 $SQOOP_HOME/bin/sqoop import-all-tables --connect jdbc:mysql://$MYSQL_SVR/employees --username root >> /tmp/sq.log
-ls -altrh /mnt/glusterfs/emplo | wc -l >> /tmp/sq.log
+ls -altrh /mnt/glusterfs/employees | wc -l
 if [[ $?==0 ]]; then
-	pass=1 #Fail because we expect the employees folder
+	pass=0 #Fail because we expect the employees folder
+	echo "Found the employees dir `ls /mnt/glusterfs/employees` ! looks good ! " >> /tmp/sq.log
 else
-	pass=0
+	echo "looks like failure in ls of employees dir. etl failed?"
+	pass=1
 fi
 
 echo "DONE running sql query $pass " >> /tmp/sq.log
 
 ## Write results of a simple query to log. 
 mysql --user=root -h localhost -e 'select * from departments' employees >> /tmp/sq.log
-if [[ $?==1 ]]; then
+query_res=$?
+if [[ $query_res == 1 ]]; then
+    echo "Mysql Query failed ! $query_res" >> /tmp/sq.log
     pass=2; #Fail because mysql never had data to begin with.	
 fi
 
