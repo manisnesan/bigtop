@@ -8,7 +8,7 @@ if [ -z $HIVE_HOME ];
      exit 99; 
 fi
 
-rm -rf /tmp/root/hive.log
+rm -rf /tmp/`whoami`/hive.log
 # Clean up Before Test
 $HADOOP_HOME/bin/hadoop fs -rmr /tmp
 $HADOOP_HOME/bin/hadoop fs -rmr /user/hive/warehouse
@@ -22,7 +22,7 @@ $HADOOP_HOME/bin/hadoop fs -chmod g+w   /user/hive/warehouse
 # Run Hive CRUD Test
 echo "Running Hive CRUD Test" >> /var/log/systemtestsbt/hive
 echo "HIVE HOME  : $HIVE_HOME" >> /var/log/systemtestsbt/hive
-cp -r $HIVE_HOME/examples ./examples
+
 pwd >> /var/log/systemtestsbt/hive
 $HIVE_HOME/bin/hive --verbose -f hive-crud.q
 result=$?
@@ -30,7 +30,7 @@ echo "Hive CRUD Test Completed , crud return code: $result" >> /var/log/systemte
 echo ""
 
 #Grep the exceptions
-grep -A 2 -B 2 -r Exception /tmp/root/hive.log
+grep -A 2 -B 2 -r Exception /tmp/`whoami`/hive.log
 
 # Condition to determine Test Case Success
 grepresult= cat /var/log/systemtestsbt/hive | grep -q 'Time taken:';
