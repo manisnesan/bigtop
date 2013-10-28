@@ -44,42 +44,53 @@ public class TestMahoutExamples {
 
     private static Shell sh = new Shell("/bin/bash -s");
     public static String download_dir = System.getProperty("mahout.examples.resources.download.path") ?: "/tmp" ;
+    
+
+    /**
+    *  Modularize the downloads into a single function, so that 
+       the setup is easier to debug. 
+    */
+    public static void download(){
+
+        def urlmap = [ 
+                        "20news-bydate.tar.gz":"http://people.csail.mit.edu/jrennie/20Newsgroups/20news-bydate.tar.gz" ,
+                        "reuters21578.tar.gz":"http://kdd.ics.uci.edu/databases/reuters21578/reuters21578.tar.gz",
+                        "synthetic_control.data":"http://archive.ics.uci.edu/ml/databases/synthetic_control/synthetic_control.data"
+                        "ml-1m.zip":"http://files.grouplens.org/papers/ml-1m.zip"  
+                        ];
+        //For each url above, download it. 
+        urlmap.each() {
+                f_name,loc -> 
+                        sh.exec("if [ ! -f ${download_dir}/${f_name} ]; then " +
+                                "curl ${loc} -o ${download_dir}/${f_name}; " +
+                                "fi");
+                sh.exec("ls -altrh ${download_dir}/${f_name}");
+                File file = new File(f_name);
+                assertThat( file.length() > 2000);
+        }
+
+    }
 
     @BeforeClass
     public static void setUp() {
-        // download resources
-        sh.exec(
-                "if [ ! -f ${download_dir}/20news-bydate.tar.gz ]; then " +
-                "curl http://people.csail.mit.edu/jrennie/20Newsgroups/20news-bydate.tar.gz -o ${download_dir}/20news-bydate.tar.gz; " +
-                "fi");
-        sh.exec(
-                "if [ ! -f ${download_dir}/reuters21578.tar.gz ]; then " +
-                "curl http://kdd.ics.uci.edu/databases/reuters21578/reuters21578.tar.gz -o ${download_dir}/reuters21578.tar.gz; " +
-                "fi");
-        sh.exec(
-                "if [ ! -f ${download_dir}/synthetic_control.data ]; then " +
-                "curl http://archive.ics.uci.edu/ml/databases/synthetic_control/synthetic_control.data -o ${download_dir}/synthetic_control.data; " +
-                "fi");
-        sh.exec(
-                "if [ ! -f ${download_dir}/ml-1m.zip ]; then " +
-                "curl http://www.grouplens.org/system/files/ml-1m.zip -o ${download_dir}/ml-1m.zip; " +
-                "fi");
+        download(); 
+        
         // uncompress archives
-        // 20news-bydate.tar.gz
-        // reuters21578.tar.gz
-        // ml-1m.zip
         sh.exec("mkdir ${TEMP_DIR}",
                 "cd ${TEMP_DIR}",
-                "mkdir 20news-bydate",
+                #news-date
+		"mkdir 20news-bydate",
                 "cd 20news-bydate",
-                "tar xzf ${download_dir}/20news-bydate.tar.gz",
+	        "tar xzf ${download_dir}/20news-bydate.tar.gz",
                 "cd ..",
+		#news-all
                 "mkdir 20news-all",
                 "cp -R 20news-bydate/*/* 20news-all",
                 "mkdir reuters-sgm",
                 "cd reuters-sgm",
                 "tar xzf ${download_dir}/reuters21578.tar.gz",
                 "cd ..",
+		#movie lens
                 "mkdir movielens",
                 "cd movielens",
                 "unzip ${download_dir}/ml-1m.zip");
